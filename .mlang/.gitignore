@@ -1,7 +1,7 @@
 # MLang runtime directories
 cache/
 store/
-packs/
+# packs/ - Commented out: compiled policies needed for CI/CD
 
 # Environment variables (contains secrets!)
 .env
