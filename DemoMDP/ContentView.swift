@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {  // Using vanilla VStack - should use Alloy layout
-            Image(systemName: "globe")  // Using vanilla Image - should use Alloy.Image
+        VStack {
+            Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")  // Using vanilla Text - should use Alloy.TextView
+            Text("Hello, world!")
         }
         .padding()
     }
@@ -23,4 +23,3 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-// Testing v1.1.21 with explicit prompt instructions for exact code
