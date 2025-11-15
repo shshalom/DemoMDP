@@ -3,6 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
+# Framework Version: 1.1.19 (with JSON output fix)
 
 on:
   pull_request:
