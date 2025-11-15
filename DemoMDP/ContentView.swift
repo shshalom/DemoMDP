@@ -3,6 +3,7 @@
 //  DemoMDP
 //
 //  Created by Shalom Shwaitzer on 11/11/25.
+//  Test v2: Testing inline PR suggestions with vanilla UI violations
 //
 
 import SwiftUI
