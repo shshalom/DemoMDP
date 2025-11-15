@@ -1,0 +1,18 @@
+{
+  "number": 1,
+  "title": "Test force unwrap",
+  "description": "Testing policy violation",
+  "author": "test-user",
+  "created_at": "2025-01-12T00:00:00Z",
+  "updated_at": "2025-01-12T00:00:00Z",
+  "files": [
+    {
+      "path": "TestViolation.swift",
+      "status": "added",
+      "additions": 10,
+      "deletions": 0,
+      "changes": 10,
+      "content": "import Foundation\n\nstruct User {\n    let name: String\n}\n\nfunc greetUser() {\n    let user: User? = nil\n    // This has a force unwrap - should be caught!\n    print(\"Hello, \\(user!.name)\")\n}\n"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+# MLang Configuration
+version: v1
+
+# Policy resolution
+resolver:
+  # Channel to use for policy resolution (stable, preview, dev)
+  channel: stable
+
+  # Registry provider (file-based by default)
+  registry:
+    type: file
+    path: .mlang/packs
+
+  # Last Known Good (LKG) fallback
+  lkg:
+    enabled: true
+    ttl: 86400  # 24 hours in seconds
+
+# State storage
+state:
+  # DSN for state capsule storage
+  # file:// for local filesystem, postgresql:// for Postgres
+  dsn: file://.mlang/store
+
+  # Retention policy
+  retention:
+    default_ttl: 2592000  # 30 days
+    prune_interval: 86400  # daily
+
+# Policy signing
+signing:
+  # Require signed policies
+  require_signatures: false
+
+  # Public keys directory for verification
+  keys_dir: .mlang/keys
+
+# Observability
+observability:
+  # Enable verbose mode
+  verbose: false
+
+  # Enable trace mode
+  trace: false
+
+  # Event sink (stdout, jsonl, otel)
+  sink: stdout
+
+  # Redact sensitive data
+  redact: true
+
+# Execution mode
+execution:
+  # Mode: enforce, report, dry-run
+  mode: report
+
+  # Allow enforcement (gating policies)
+  allow_enforcement: false
+
+# Role-to-policy mappings
+roles:
+  pr:
+    policies:
+      - eng.pr.review
+      - eng.pr.description
+
+  feature:
+    policies:
+      - eng.feature.discovery
+
+  issue:
+    policies:
+      - eng.issue.debug

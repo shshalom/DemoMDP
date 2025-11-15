@@ -1,0 +1,18 @@
+{
+  "number": 2,
+  "title": "Add Profile Settings View",
+  "description": "Adding a new profile settings view with user preferences",
+  "author": "test-user",
+  "created_at": "2025-01-13T00:00:00Z",
+  "updated_at": "2025-01-13T00:00:00Z",
+  "files": [
+    {
+      "path": "DemoMDP/ProfileSettingsView.swift",
+      "status": "added",
+      "additions": 61,
+      "deletions": 0,
+      "changes": 61,
+      "content": "import SwiftUI\n\nstruct ProfileSettingsView: View {\n    @State private var username: String = \"John Doe\"\n    @State private var email: String = \"john@example.com\"\n    @State private var notificationsEnabled: Bool = true\n    @State private var darkModeEnabled: Bool = false\n\n    var body: some View {\n        NavigationView {\n            Form {\n                Section(header: Text(\"Profile Information\")) {\n                    HStack {\n                        Text(\"Username\")\n                        Spacer()\n                        Text(username)\n                            .foregroundColor(.gray)\n                    }\n\n                    HStack {\n                        Text(\"Email\")\n                        Spacer()\n                        Text(email)\n                            .foregroundColor(.gray)\n                    }\n                }\n\n                Section(header: Text(\"Preferences\")) {\n                    Toggle(\"Enable Notifications\", isOn: $notificationsEnabled)\n                    Toggle(\"Dark Mode\", isOn: $darkModeEnabled)\n                }\n\n                Section {\n                    Button(\"Edit Profile\") {\n                        // Edit profile action\n                    }\n\n                    Button(\"Change Password\") {\n                        // Change password action\n                    }\n                    .foregroundColor(.blue)\n                }\n\n                Section {\n                    Button(\"Sign Out\") {\n                        // Sign out action\n                    }\n                    .foregroundColor(.red)\n                }\n            }\n            .navigationTitle(\"Settings\")\n        }\n    }\n}\n\nstruct ProfileSettingsView_Previews: PreviewProvider {\n    static var previews: some View {\n        ProfileSettingsView()\n    }\n}\n"
+    }
+  ]
+}

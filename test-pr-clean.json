@@ -1,0 +1,18 @@
+{
+  "number": 2,
+  "title": "Test clean code",
+  "description": "Safe unwrapping - should pass",
+  "author": "test-user",
+  "created_at": "2025-01-12T00:00:00Z",
+  "updated_at": "2025-01-12T00:00:00Z",
+  "files": [
+    {
+      "path": "SafeCode.swift",
+      "status": "added",
+      "additions": 12,
+      "deletions": 0,
+      "changes": 12,
+      "content": "import Foundation\n\nstruct User {\n    let name: String\n}\n\nfunc greetUser() {\n    let user: User? = nil\n    // Safe unwrapping with if let\n    if let user = user {\n        print(\"Hello, \\(user.name)\")\n    }\n}\n"
+    }
+  ]
+}

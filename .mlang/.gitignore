@@ -1,0 +1,16 @@
+# MLang runtime directories
+cache/
+store/
+packs/
+
+# Environment variables (contains secrets!)
+.env
+
+# Private signing keys
+keys/*.key
+keys/*.pem
+*.private
+
+# Temporary files
+*.tmp
+*.log
