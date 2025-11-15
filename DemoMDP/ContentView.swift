@@ -23,4 +23,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
-// Testing v1.1.20 with exact code suggestions
+// Testing v1.1.21 with explicit prompt instructions for exact code
