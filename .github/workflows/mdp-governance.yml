@@ -195,14 +195,32 @@ jobs:
 
             // Post PR review with inline comments
             if (reviewComments.length > 0) {
-              await github.rest.pulls.createReview({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: context.issue.number,
-                body: body,
-                event: summary.approved ? 'APPROVE' : 'REQUEST_CHANGES',
-                comments: reviewComments
-              });
+              try {
+                await github.rest.pulls.createReview({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number,
+                  body: body,
+                  event: summary.approved ? 'APPROVE' : 'REQUEST_CHANGES',
+                  comments: reviewComments
+                });
+              } catch (error) {
+                console.log('Failed to post review with inline comments:', error.message);
+                console.log('Falling back to posting review without inline comments...');
+
+                // Fallback: Post review without inline comments, add violations to body
+                let fallbackBody = body + '\n\n## Violations\n\n';
+                for (const comment of reviewComments) {
+                  fallbackBody += `### ${comment.path}:${comment.line}\n${comment.body}\n\n`;
+                }
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: fallbackBody
+                });
+              }
             } else {
               // Fallback to issue comment if no inline suggestions
               await github.rest.issues.createComment({
