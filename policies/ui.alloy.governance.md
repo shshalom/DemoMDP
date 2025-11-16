@@ -23,6 +23,17 @@ constraints:
   severity: error
   aoi_feedback_enabled: true
 
+reference_code:
+  paths:
+    - "ios/Modules/AlloyUI/Sources/AlloyUI"
+  include_patterns:
+    - "**/*.swift"
+  exclude_patterns:
+    - "**/*Tests.swift"
+    - "**/*Test.swift"
+    - "**/.*"
+  max_files: 20
+
 on_violation:
   - action: fail
     message: "BLOCKED: Use Alloy Components Instead of Vanilla UI"

@@ -26,14 +26,12 @@
       "VStack",
       "HStack",
       "NavigationView",
+      "LazyColumn",
       "Column {",
       "Row {",
-      "LazyColumn",
       "<div",
       "<button",
-      "<input",
-      "onClick",
-      "onValueChange"
+      "<input"
     ],
     "framework_locations": {
       "android": "pgf/alloyDomain/src/",
@@ -62,6 +60,20 @@
       }
     }
   ],
+  "reference_code": {
+    "exclude_patterns": [
+      "**/*Tests.swift",
+      "**/*Test.swift",
+      "**/.*"
+    ],
+    "include_patterns": [
+      "**/*.swift"
+    ],
+    "max_files": 20,
+    "paths": [
+      "ios/Modules/AlloyUI/Sources/AlloyUI"
+    ]
+  },
   "role": "developer",
   "scope": "repo",
   "tags": [
@@ -73,5 +85,5 @@
     "autodesk"
   ],
   "title": "Alloy Design System Governance Rules",
-  "version": "2025.11.14"
+  "version": "2025.11.16"
 }

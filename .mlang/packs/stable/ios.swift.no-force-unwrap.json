@@ -18,7 +18,7 @@
       "[!]"
     ],
     "severity": "error",
-    "violation_check_prompt": "Does this Swift code use force unwrap (variable!), force cast (as!), or force try (try!)? Answer yes or no."
+    "violation_check_prompt": "Does this Swift code use force unwrap (!) on variables/arrays, force cast (as!), or force try (try!)? Answer yes or no."
   },
   "description": "Prevent crashes by catching force unwraps in Swift code",
   "id": "ios.swift.no-force-unwrap",
@@ -30,5 +30,5 @@
     "safety"
   ],
   "title": "No Force Unwrapping in Swift",
-  "version": "2025.11.14"
+  "version": "2025.11.16"
 }
