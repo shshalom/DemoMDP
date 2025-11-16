@@ -3,7 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
-# Framework Version: 1.1.19 (with JSON output fix)
+# Framework Version: 1.1.21 (with exact code suggestions in prompts)
 
 on:
   pull_request:
@@ -164,6 +164,8 @@ jobs:
                     reviewComments.push({
                       path: violation.location.file,
                       line: violation.location.line,
+                      side: 'RIGHT',
+                      commit_id: context.payload.pull_request.head.sha,
                       body: `**[${violation.severity.toUpperCase()}]** ${violation.message}\n\n\`\`\`suggestion\n${suggestion.trim()}\n\`\`\``
                     });
                   }
@@ -195,14 +197,41 @@ jobs:
 
             // Post PR review with inline comments
             if (reviewComments.length > 0) {
-              await github.rest.pulls.createReview({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: context.issue.number,
-                body: body,
-                event: summary.approved ? 'APPROVE' : 'REQUEST_CHANGES',
-                comments: reviewComments
-              });
+              try {
+                await github.rest.pulls.createReview({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.issue.number,
+                  body: body,
+                  event: summary.approved ? 'APPROVE' : 'REQUEST_CHANGES',
+                  comments: reviewComments
+                });
+              } catch (error) {
+                console.log('Failed to post review with inline comments:', error.message);
+                console.log('Falling back to posting review without inline comments...');
+
+                // Fallback: Post review without inline comments, add violations as table
+                let fallbackBody = body + '\n\n## 📋 Violations & Suggested Fixes\n\n';
+                fallbackBody += '| File | Line | Replace With |\n';
+                fallbackBody += '|------|------|--------------|\n';
+
+                for (const comment of reviewComments) {
+                  // Extract suggested code from ```suggestion block
+                  const match = comment.body.match(/```suggestion\n(.*?)\n```/s);
+                  const suggestedCode = match ? match[1].trim() : 'N/A';
+
+                  fallbackBody += `| ${comment.path} | ${comment.line} | \`${suggestedCode}\` |\n`;
+                }
+
+                fallbackBody += '\n---\n⚠️ *Inline suggestions could not be posted. Use the table above to apply fixes.*';
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: fallbackBody
+                });
+              }
             } else {
               // Fallback to issue comment if no inline suggestions
               await github.rest.issues.createComment({
