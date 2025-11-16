@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
+        VStack { // VIOLATION: should use Alloy.VStack
+            Image(systemName: "globe") // VIOLATION: should use Alloy.Image
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, world!") // VIOLATION: should use Alloy.Text
         }
         .padding()
     }
