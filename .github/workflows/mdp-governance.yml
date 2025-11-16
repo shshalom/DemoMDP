@@ -165,7 +165,6 @@ jobs:
                       path: violation.location.file,
                       line: violation.location.line,
                       side: 'RIGHT',
-                      commit_id: context.payload.pull_request.head.sha,
                       body: `**[${violation.severity.toUpperCase()}]** ${violation.message}\n\n\`\`\`suggestion\n${suggestion.trim()}\n\`\`\``
                     });
                   }
@@ -202,6 +201,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   pull_number: context.issue.number,
+                  commit_id: context.payload.pull_request.head.sha,
                   body: body,
                   event: summary.approved ? 'APPROVE' : 'REQUEST_CHANGES',
                   comments: reviewComments
