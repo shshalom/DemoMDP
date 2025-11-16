@@ -213,7 +213,7 @@ jobs:
                 // Fallback: Post review without inline comments, add violations as table
                 let fallbackBody = body + '\n\n## 📋 Violations & Suggested Fixes\n\n';
                 fallbackBody += '| File | Line | Replace With |\n';
-                fallbackBody += '|------|------|--------------|\\n';
+                fallbackBody += '|------|------|--------------|\n';
 
                 for (const comment of reviewComments) {
                   // Extract suggested code from ```suggestion block
@@ -223,7 +223,7 @@ jobs:
                   fallbackBody += `| ${comment.path} | ${comment.line} | \`${suggestedCode}\` |\n`;
                 }
 
-                fallbackBody += '\n---\n⚠️ *Inline suggestions couldn\\'t be posted. Use the table above to apply fixes.*';
+                fallbackBody += '\n---\n⚠️ *Inline suggestions could not be posted. Use the table above to apply fixes.*';
 
                 await github.rest.issues.createComment({
                   owner: context.repo.owner,
