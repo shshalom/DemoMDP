@@ -2,7 +2,7 @@
   "_sourceMarkdown": "policies/ui.alloy.governance.md",
   "_structuredSections": {
     "detection": "### Real Framework Locations\n**iOS AlloyUI Framework**: `ios/Modules/AlloyUI/Sources/AlloyUI/Components/`\n- Available components: TextView, TextField, Button, Avatars, Badges, Banners, Cells, Checkbox, Color, Dividers, EmptyState, FileVersionIndicator, FlowLayout, Image, ProgressIndicator, RadioButton, RichTextEditor, SearchBar, SegmentedControl, Shapes, Stepper, TableRows, Tabs, Tags, TextArea, Toast, ToggleSwitch\n\n**Android/Kotlin alloyDomain**: `pgf/alloyDomain/src/`\n- Domain components and UI builders for Kotlin Multiplatform\n\n**Web Components**: `web/alloy-components/src/`\n- React/TypeScript Alloy components for web applications\n\n### Detection Patterns\n\n**iOS - Violations (Don't Do This):**\n```swift\n// Vanilla SwiftUI/UIKit\nText(\"Hello World\")\nButton(\"Click Me\") { }\nTextField(\"Enter text\", text: $binding)\nList { }\nVStack { }\nHStack { }\nNavigationView { }\n```\n\n**Android/Kotlin - Violations (Don't Do This):**\n```kotlin\n// Vanilla Android/Compose components\nText(\"Hello World\")\nButton(onClick = { }) { Text(\"Click\") }\nTextField(value = text, onValueChange = { })\nLazyColumn { }\nColumn { }\nRow { }\n```\n\n**Web - Violations (Don't Do This):**\n```typescript\n// Vanilla HTML/React\n<div>Hello World</div>\n<button onClick={() => {}}>Click</button>\n<input type=\"text\" />\n```",
-    "examples": "### iOS Example 1 - Text Component\n\n**❌ Violation:**\n```swift\nimport SwiftUI\n\nstruct UserProfile: View {\n    var body: some View {\n        VStack {\n            Text(\"User Profile\")\n                .font(.headline)\n                .foregroundColor(.primary)\n\n            Text(\"Welcome back, John\")\n                .font(.subheadline)\n                .foregroundColor(.secondary)\n        }\n    }\n}\n```\n\n**✅ Correct (Using Alloy):**\n```swift\nimport AlloyUI\n\nstruct UserProfile: View {\n    var body: some View {\n        Alloy.VStack {\n            Alloy.TextView(\"User Profile\")\n                .textStyle(.headline)\n                .textColor(AlloyTextColor.primary)\n\n            Alloy.TextView(\"Welcome back, John\")\n                .textStyle(.subheadline)\n                .textColor(AlloyTextColor.secondary)\n        }\n    }\n}\n```",
+    "examples": "### How to Find Correct Alloy Components\n\n**DO NOT use explicit code examples as they may become outdated or contain incorrect references.**\n\nInstead, refer to the actual AlloyUI framework source code:\n\n**iOS AlloyUI Components**: Examine the files in `ios/Modules/AlloyUI/Sources/AlloyUI/Components/`\n- Available components include: TextView, TextField, Button, NavigationView, and others\n- Each component file shows the correct API, initializers, and modifiers\n- Use the actual component implementation as your source of truth\n\n**Android/Kotlin Components**: Examine files in `pgf/alloyDomain/src/`\n- Domain components and UI builders for Kotlin Multiplatform\n- Reference actual implementation files for correct usage\n\n**Web Components**: Examine files in `web/alloy-components/src/`\n- React/TypeScript Alloy components for web applications\n- Reference actual component exports for correct API\n\n**When evaluating violations:**\n1. Identify the vanilla component being used (e.g., SwiftUI `Text`)\n2. Search the AlloyUI framework for the equivalent component (e.g., `TextView.swift`)\n3. Read the component's actual implementation to understand its API\n4. Generate the replacement code using the real component API, not assumed examples",
     "exceptions": "**Approved Use Cases for Vanilla UI:**\n\n1. **Component Not Yet Available**: If Alloy component doesn't exist, file AOI feedback request\n2. **Prototype/Experimental Code**: Clearly marked experimental features (requires `// EXPERIMENTAL:` comment)\n3. **Internal Tools**: Non-customer-facing internal developer tools (requires architecture approval)\n4. **Performance Critical Paths**: Documented performance bottlenecks where Alloy overhead is measured issue (requires profiling data)\n5. **Third-Party Integrations**: When integrating external SDKs that provide their own UI components\n6. **Legacy Code Migration**: During gradual migration periods (requires migration plan with timeline)\n\n**Exception Approval Process:**\n- All exceptions require Architecture team approval\n- Document reason in code comments with ticket reference\n- Add to exception tracking dashboard\n- Set review date for re-evaluation (max 6 months)",
     "purpose": "Enforce consistent use of Alloy Design System components across all Autodesk products to ensure design consistency, maintainability, and accessibility.\n\n### Why This Rule Exists\n- **Consistency**: All Autodesk products should look and feel cohesive\n- **Maintenance**: Design updates happen once in Alloy, not in every component\n- **Accessibility**: Alloy components include built-in accessibility features\n- **Performance**: Optimized components with proper resource usage\n- **Brand Alignment**: Consistent visual language across all products\n\n### Context\nAlloy is our unified design system that ensures consistency across all Autodesk products. Using vanilla UI components instead of Alloy components leads to:\n- **Design inconsistencies** between teams and products\n- **Maintenance overhead** when design changes need to be applied\n- **Accessibility issues** due to missing built-in accessibility features\n- **Poor user experience consistency** across the Autodesk ecosystem",
     "references": "**Alloy Design System Documentation:**\n- Component Catalog: `https://alloy.autodesk.com/components`\n- Design Guidelines: `https://alloy.autodesk.com/guidelines`\n- API Reference: `https://alloy.autodesk.com/api-docs`\n\n**Framework Source Code:**\n- iOS: `ios/Modules/AlloyUI/Sources/AlloyUI/`\n- Android: `pgf/alloyDomain/src/`\n- Web: `web/alloy-components/src/`\n\n**Governance Resources:**\n- Exception Request Form: `https://alloy.autodesk.com/governance/exceptions`\n- Compliance Dashboard: `https://alloy.autodesk.com/compliance`\n- Component Roadmap: `https://alloy.autodesk.com/roadmap`\n- AOI Feedback Portal: `https://alloy.autodesk.com/feedback`\n\n**Related Policies:**\n- `ui.design.tokens` - Design token usage enforcement\n- `ui.accessibility.wcag` - Accessibility compliance\n- `eng.pr.review` - General PR hygiene standards\n\n**Teams & Contacts:**\n- Alloy Design System Team: `@alloy-team`\n- iOS Mobile Team: `@ios-team`\n- Android Team: `@android-team`\n- Web Team: `@web-team`\n- Architecture Team (Exceptions): `@architecture-team`",
@@ -26,10 +26,10 @@
       "VStack",
       "HStack",
       "NavigationView",
+      "LazyColumn",
       "Column {",
       "Row {",
-      "LazyColumn",
-      "<div",
+      "<div>",
       "<button",
       "<input",
       "onClick",
@@ -43,7 +43,7 @@
     "severity": "error",
     "target_compliance": 0.95,
     "use_alloy_components": true,
-    "violation_check_prompt": "Uses vanilla UI components (SwiftUI Text/Button/TextField, Compose Text/Button/TextField, HTML div/button/input) instead of Alloy framework components? Answer yes or no only."
+    "violation_check_prompt": "Uses vanilla UI components (SwiftUI/UIKit/Compose/HTML) instead of Alloy framework components? Answer yes or no only."
   },
   "description": "Enforce consistent use of Alloy Design System components across all Autodesk products to ensure design consistency, maintainability, and accessibility",
   "id": "ui.alloy.governance",
@@ -62,6 +62,20 @@
       }
     }
   ],
+  "reference_code": {
+    "exclude_patterns": [
+      "**/*Tests.swift",
+      "**/*Test.swift",
+      "**/.*"
+    ],
+    "include_patterns": [
+      "**/*.swift"
+    ],
+    "max_files": 20,
+    "paths": [
+      "ios/Modules/AlloyUI/Sources/AlloyUI"
+    ]
+  },
   "role": "developer",
   "scope": "repo",
   "tags": [
@@ -73,5 +87,5 @@
     "autodesk"
   ],
   "title": "Alloy Design System Governance Rules",
-  "version": "2025.11.14"
+  "version": "2025.11.17"
 }

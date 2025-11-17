@@ -1,6 +1,6 @@
 ---
 id: ui.alloy.governance
-version: 2025.01.13
+version: 2025.11.17
 scope: repo
 role: developer
 title: Alloy Design System Governance Rules
@@ -22,6 +22,17 @@ constraints:
     web: "web/alloy-components/src/"
   severity: error
   aoi_feedback_enabled: true
+
+reference_code:
+  paths:
+    - "ios/Modules/AlloyUI/Sources/AlloyUI"
+  include_patterns:
+    - "**/*.swift"
+  exclude_patterns:
+    - "**/*Tests.swift"
+    - "**/*Test.swift"
+    - "**/.*"
+  max_files: 20
 
 on_violation:
   - action: fail
@@ -119,202 +130,30 @@ Row { }
 
 ## Examples
 ---
-### iOS Example 1 - Text Component
+### How to Find Correct Alloy Components
 
-**❌ Violation:**
-```swift
-import SwiftUI
+**DO NOT use explicit code examples as they may become outdated or contain incorrect references.**
 
-struct UserProfile: View {
-    var body: some View {
-        VStack {
-            Text("User Profile")
-                .font(.headline)
-                .foregroundColor(.primary)
+Instead, refer to the actual AlloyUI framework source code:
 
-            Text("Welcome back, John")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-        }
-    }
-}
-```
+**iOS AlloyUI Components**: Examine the files in `ios/Modules/AlloyUI/Sources/AlloyUI/Components/`
+- Available components include: TextView, TextField, Button, NavigationView, and others
+- Each component file shows the correct API, initializers, and modifiers
+- Use the actual component implementation as your source of truth
 
-**✅ Correct (Using Alloy):**
-```swift
-import AlloyUI
+**Android/Kotlin Components**: Examine files in `pgf/alloyDomain/src/`
+- Domain components and UI builders for Kotlin Multiplatform
+- Reference actual implementation files for correct usage
 
-struct UserProfile: View {
-    var body: some View {
-        Alloy.VStack {
-            Alloy.TextView("User Profile")
-                .textStyle(.headline)
-                .textColor(AlloyTextColor.primary)
+**Web Components**: Examine files in `web/alloy-components/src/`
+- React/TypeScript Alloy components for web applications
+- Reference actual component exports for correct API
 
-            Alloy.TextView("Welcome back, John")
-                .textStyle(.subheadline)
-                .textColor(AlloyTextColor.secondary)
-        }
-    }
-}
-```
-
----
-
-### iOS - Button Components
-
-**❌ Violation:**
-```swift
-Button("Save Changes") {
-    saveUserProfile()
-}
-.buttonStyle(.borderedProminent)
-.foregroundColor(.white)
-```
-
-**✅ Correct (Using Alloy):**
-```swift
-Alloy.Button(onClick: saveUserProfile) {
-    Alloy.TextView("Save Changes")
-}
-.buttonStyle(.primary)
-```
-
----
-
-### iOS - Text Input
-
-**❌ Violation:**
-```swift
-@State private var userName: String = ""
-
-TextField("Enter name", text: $userName)
-    .textFieldStyle(.roundedBorder)
-    .padding()
-```
-
-**✅ Correct (Using Alloy):**
-```swift
-@State private var userName: String = ""
-
-Alloy.TextField(text: $userName)
-    .placeholder("Enter name")
-    .labelText("User Name")
-    .textFieldStyle(.standard)
-```
-
----
-
-### Android/Kotlin - Text Display
-
-**❌ Violation:**
-```kotlin
-@Composable
-fun UserProfile() {
-    Column {
-        Text(
-            text = "User Profile",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = "Welcome back, John",
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-```
-
-**✅ Correct (Using Alloy):**
-```kotlin
-import com.autodesk.alloy.domain.*
-
-@Composable
-fun UserProfile() {
-    AlloyColumn {
-        AlloyText(
-            text = "User Profile",
-            style = AlloyTextStyle.Headline,
-            color = AlloyColor.Primary
-        )
-        AlloyText(
-            text = "Welcome back, John",
-            style = AlloyTextStyle.Body,
-            color = AlloyColor.Secondary
-        )
-    }
-}
-```
-
----
-
-### Android/Kotlin - Button Components
-
-**❌ Violation:**
-```kotlin
-Button(
-    onClick = { saveUserProfile() },
-    colors = ButtonDefaults.buttonColors(
-        containerColor = MaterialTheme.colorScheme.primary
-    )
-) {
-    Text("Save Changes")
-}
-```
-
-**✅ Correct (Using Alloy):**
-```kotlin
-AlloyButton(
-    text = "Save Changes",
-    style = AlloyButtonStyle.Primary,
-    onClick = { saveUserProfile() }
-)
-```
-
----
-
-### Web/React - Components
-
-**❌ Violation:**
-```typescript
-import React from 'react';
-
-export const UserProfile: React.FC = () => {
-  return (
-    <div className="profile">
-      <h2>User Profile</h2>
-      <p>Welcome back, John</p>
-      <button onClick={saveUserProfile}>
-        Save Changes
-      </button>
-    </div>
-  );
-};
-```
-
-**✅ Correct (Using Alloy):**
-```typescript
-import React from 'react';
-import { AlloyText, AlloyButton, AlloyVStack } from '@autodesk/alloy-react';
-
-export const UserProfile: React.FC = () => {
-  return (
-    <AlloyVStack spacing="md">
-      <AlloyText variant="headline" color="primary">
-        User Profile
-      </AlloyText>
-      <AlloyText variant="body" color="secondary">
-        Welcome back, John
-      </AlloyText>
-      <AlloyButton
-        variant="primary"
-        onClick={saveUserProfile}
-      >
-        Save Changes
-      </AlloyButton>
-    </AlloyVStack>
-  );
-};
-```
+**When evaluating violations:**
+1. Identify the vanilla component being used (e.g., SwiftUI `Text`)
+2. Search the AlloyUI framework for the equivalent component (e.g., `TextView.swift`)
+3. Read the component's actual implementation to understand its API
+4. Generate the replacement code using the real component API, not assumed examples
 ---
 
 ## AOI Integration
