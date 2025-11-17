@@ -85,10 +85,10 @@ Text("Hello World")
 Button("Click Me") { }
 TextField("Enter text", text: $binding)
 List { }
-VStack { }
-HStack { }
 NavigationView { }
 ```
+
+**Note**: Layout containers like VStack, HStack, and ZStack are NOT violations as Alloy doesn't provide layout alternatives. Focus on actual UI components.
 
 **Android/Kotlin - Violations (Don't Do This):**
 ```kotlin
@@ -97,9 +97,9 @@ Text("Hello World")
 Button(onClick = { }) { Text("Click") }
 TextField(value = text, onValueChange = { })
 LazyColumn { }
-Column { }
-Row { }
 ```
+
+**Note**: Layout containers like Column and Row are NOT violations as Alloy doesn't provide layout alternatives. Focus on actual UI components.
 
 **Web - Violations (Don't Do This):**
 ```typescript
