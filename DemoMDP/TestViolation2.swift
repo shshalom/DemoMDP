@@ -13,7 +13,7 @@ struct TestViolation2: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, world 2!")
         }
         .padding()
     }
