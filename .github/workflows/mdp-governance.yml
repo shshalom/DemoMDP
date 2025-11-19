@@ -41,7 +41,7 @@ jobs:
 
       - name: Install MDP CLI
         run: |
-          npm install -g @mdp-framework/mlang@1.1.29
+          npm install -g @mdp-framework/mlang@1.1.30
           mlang --version
 
       - name: Fetch PR data
