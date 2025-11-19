@@ -8,8 +8,18 @@
     "references": "**Alloy Design System Documentation:**\n- Component Catalog: `https://alloy.autodesk.com/components`\n- Design Guidelines: `https://alloy.autodesk.com/guidelines`\n- API Reference: `https://alloy.autodesk.com/api-docs`\n\n**Framework Source Code:**\n- iOS: `ios/Modules/AlloyUI/Sources/AlloyUI/`\n- Android: `pgf/alloyDomain/src/`\n- Web: `web/alloy-components/src/`\n\n**Governance Resources:**\n- Exception Request Form: `https://alloy.autodesk.com/governance/exceptions`\n- Compliance Dashboard: `https://alloy.autodesk.com/compliance`\n- Component Roadmap: `https://alloy.autodesk.com/roadmap`\n- AOI Feedback Portal: `https://alloy.autodesk.com/feedback`\n\n**Related Policies:**\n- `ui.design.tokens` - Design token usage enforcement\n- `ui.accessibility.wcag` - Accessibility compliance\n- `eng.pr.review` - General PR hygiene standards\n\n**Teams & Contacts:**\n- Alloy Design System Team: `@alloy-team`\n- iOS Mobile Team: `@ios-team`\n- Android Team: `@android-team`\n- Web Team: `@web-team`\n- Architecture Team (Exceptions): `@architecture-team`",
     "remediation": "### Step 1: Identify Vanilla Component Usage\nRun automated scan to detect vanilla UI components in your codebase:\n\n```bash\n# iOS\ngrep -r \"Text(\" --include=\"*.swift\" ios/\ngrep -r \"Button(\" --include=\"*.swift\" ios/\n\n# Android\ngrep -r \"androidx.compose\" --include=\"*.kt\" android/\n\n# Web\ngrep -r \"<button\" --include=\"*.tsx\" web/\ngrep -r \"<input\" --include=\"*.tsx\" web/\n```\n\n### Step 2: Find Alloy Equivalent\nCheck component availability in Alloy framework:\n\n**iOS Available Components** (`ios/Modules/AlloyUI/Sources/AlloyUI/Components/`):\n- TextView, TextField, Button, Avatars, Badges, Banners, Cells, Checkbox\n- Color, Dividers, EmptyState, FileVersionIndicator, FlowLayout, Image\n- ProgressIndicator, RadioButton, RichTextEditor, SearchBar, SegmentedControl\n- Shapes, Stepper, TableRows, Tabs, Tags, TextArea, Toast, ToggleSwitch\n\n**Android Components** (`pgf/alloyDomain/src/`):\n- AlloyText, AlloyButton, AlloyTextField, AlloyCheckbox, AlloyRadioButton\n- AlloySwitch, AlloySlider, AlloyProgressBar, AlloyCard, AlloyDivider\n\n**Web Components** (`web/alloy-components/src/`):\n- AlloyText, AlloyButton, AlloyInput, AlloyCheckbox, AlloyRadio, AlloySelect\n- AlloyTextArea, AlloyCard, AlloyDivider, AlloyModal, AlloyToast\n\n### Step 3: Replace with Alloy Component\n1. Update imports to include Alloy framework\n2. Replace vanilla component with Alloy equivalent\n3. Update props/modifiers to match Alloy API\n4. Test for visual consistency and functionality\n5. Verify accessibility features work correctly\n\n### Step 4: Component Not Available?\nIf Alloy component doesn't exist for your use case:\n\n**Trigger AOI Feedback Loop:**\n1. File component request in Alloy backlog\n2. Include:\n   - Use case description\n   - Vanilla component you tried to use\n   - Proposed Alloy API design\n   - Priority/impact (how many teams need it)\n3. Track request status in component roadmap\n4. Use vanilla component with exception approval temporarily\n5. Set reminder to migrate once Alloy component is available\n\n### Step 5: Validate Compliance\nRun governance check before committing:\n\n```bash\n# Validate with MDP CLI\nmlang evaluate --file pr-data.json --policy ui.alloy.governance\n\n# Expected output for compliant PR:\n# ✓ PASSED - All UI components use Alloy Design System\n```"
   },
+  "aoi": {
+    "auto_create_counter_pr": false,
+    "auto_create_followup_pr": false,
+    "enabled": true,
+    "framework": "ios/Modules/AlloyUI",
+    "include_tests": true,
+    "owners": [
+      "@alloy-team"
+    ],
+    "threshold": 0.85
+  },
   "constraints": {
-    "aoi_feedback_enabled": true,
     "file_types": [
       ".swift",
       ".kt",
@@ -83,5 +93,5 @@
     "autodesk"
   ],
   "title": "Alloy Design System Governance Rules",
-  "version": "2025.11.17"
+  "version": "2025.11.19"
 }
