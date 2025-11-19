@@ -21,7 +21,16 @@ constraints:
     android: "pgf/alloyDomain/src/"
     web: "web/alloy-components/src/"
   severity: error
-  aoi_feedback_enabled: true
+
+aoi:
+  enabled: true
+  framework: "ios/Modules/AlloyUI"
+  owners:
+    - "@alloy-team"
+  include_tests: true
+  threshold: 0.85
+  auto_create_counter_pr: false
+  auto_create_followup_pr: false
 
 reference_code:
   paths:

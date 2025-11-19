@@ -19,8 +19,19 @@ resolver:
 # State storage
 state:
   # DSN for state capsule storage
-  # file:// for local filesystem, postgresql:// for Postgres
+  # file:// for local filesystem (default, zero config)
+  # postgresql:// for PostgreSQL (advanced, enables full AOI lifecycle)
   dsn: file://.mlang/store
+
+  # AOI works with both storage backends:
+  # - file://   → Evaluation + detection work, but state doesn't persist across runs
+  # - postgresql:// → Full lifecycle tracking (detect → counter-PR → follow-up PR)
+  #
+  # To enable PostgreSQL for full AOI workflow:
+  # 1. Start: docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=mdp_aoi postgres:16
+  # 2. Migrate: npx @mdp-framework/mlang aoi migrate --database mdp_aoi --user postgres --password postgres
+  # 3. Change DSN to: postgresql://postgres:postgres@localhost:5432/mdp_aoi
+  # 4. Add PostgreSQL service to .github/workflows/*.yml (see AOI_SETUP.md)
 
   # Retention policy
   retention:
