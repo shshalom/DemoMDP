@@ -82,3 +82,28 @@ roles:
   issue:
     policies:
       - eng.issue.debug
+
+# External MCP Server configuration
+# IMPORTANT: Environment variables (JIRA_ACCESS_TOKEN, WIKI_ACCESS_TOKEN)
+# should be set in GitHub repository secrets for CI/CD
+mcp:
+  # Autodesk Atlassian MCP Server (Jira + Confluence)
+  atlassian:
+    command: npx
+    args:
+      - --registry
+      - https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual
+      - -y
+      - "@adsk/adsk-atlassian-mcp@latest"
+      - mcp
+      - --wiki
+      - --jira
+    env:
+      # These read from environment variables - set in GitHub secrets
+      JIRA_ACCESS_TOKEN: ${JIRA_ACCESS_TOKEN}
+      WIKI_ACCESS_TOKEN: ${WIKI_ACCESS_TOKEN}
+
+# AOI (Architecture of Intent) configuration
+aoi:
+  jira_project: AOI
+  slack_route: aoi-alerts
