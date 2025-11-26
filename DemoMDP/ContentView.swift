@@ -14,9 +14,9 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
-            Button("Go to the next view") {
-
-            }
+            Image(systemName: "person.circle.fill")
+                .imageScale(.large)
+                .foregroundStyle(.blue)
         }
         .padding()
     }
