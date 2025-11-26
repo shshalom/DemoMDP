@@ -25,6 +25,8 @@ constraints:
 aoi:
   enabled: true
   framework: "ios/Modules/AlloyUI"
+  jira_project: MPX
+  slack_route: alloy-alerts
   owners:
     - "@alloy-team"
   include_tests: true
