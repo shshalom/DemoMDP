@@ -17,6 +17,8 @@ struct ContentView: View {
             Button("Go to the next view") {
 
             }
+            Image(systemName: "star.fill")
+                .foregroundStyle(.yellow)
         }
         .padding()
     }
