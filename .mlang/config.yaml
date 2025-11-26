@@ -88,6 +88,8 @@ roles:
 # should be set in GitHub repository secrets for CI/CD
 mcp:
   # Autodesk Atlassian MCP Server (Jira + Confluence)
+  # NOTE: Package must be pre-installed before use
+  # Run: npx --registry https://npm.autodesk.com/.../autodesk-npm-virtual -y @adsk/adsk-atlassian-mcp@latest install
   atlassian:
     command: npx
     args:

@@ -44,6 +44,14 @@ jobs:
           npm install -g @mdp-framework/mlang@1.1.35
           mlang --version
 
+      - name: Pre-install Autodesk Atlassian MCP package
+        env:
+          JIRA_ACCESS_TOKEN: ${{ secrets.JIRA_ACCESS_TOKEN }}
+          WIKI_ACCESS_TOKEN: ${{ secrets.WIKI_ACCESS_TOKEN }}
+        run: |
+          # Pre-install the MCP package so it's cached for later use
+          npx --registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual -y @adsk/adsk-atlassian-mcp@latest install
+
       - name: Fetch PR data
         id: fetch-pr
         uses: actions/github-script@v7
