@@ -44,13 +44,21 @@ jobs:
           npm install -g @mdp-framework/mlang@1.1.35
           mlang --version
 
+      - name: Configure npm for Autodesk registry
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          # Configure npm to authenticate with Autodesk Artifactory
+          npm config set @adsk:registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
+          npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken "${NPM_AUTH_TOKEN}"
+
       - name: Pre-install Autodesk Atlassian MCP package
         env:
           JIRA_ACCESS_TOKEN: ${{ secrets.JIRA_ACCESS_TOKEN }}
           WIKI_ACCESS_TOKEN: ${{ secrets.WIKI_ACCESS_TOKEN }}
         run: |
           # Pre-install the MCP package so it's cached for later use
-          npx --registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual -y @adsk/adsk-atlassian-mcp@latest install
+          npx -y @adsk/adsk-atlassian-mcp@latest install
 
       - name: Fetch PR data
         id: fetch-pr
