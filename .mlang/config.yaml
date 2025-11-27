@@ -111,6 +111,31 @@ mcp:
   #   Name: JIRA_API_TOKEN
   #   Value: your-token-here
 
+  # Slack MCP Server - For AOI notifications
+  # Using korotovsky/slack-mcp-server (actively maintained alternative)
+  slack:
+    command: npx
+    args:
+      - -y
+      - slack-mcp-server@latest
+    env:
+      # Slack authentication (choose one method)
+      # Option 1: Bot Token (recommended for CI/CD)
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      # Option 2: Stealth mode (browser tokens)
+      # SLACK_MCP_XOXC_TOKEN: ${SLACK_XOXC_TOKEN}
+      # SLACK_MCP_XOXD_TOKEN: ${SLACK_XOXD_TOKEN}
+
+      # Enable message posting (required for AOI notifications)
+      SLACK_MCP_ADD_MESSAGE_TOOL: "true"
+
+  # To set up Slack:
+  # 1. Create Slack App: https://api.slack.com/apps
+  # 2. Add Bot Token Scopes: chat:write, channels:read, channels:history
+  # 3. Install app to workspace
+  # 4. Copy Bot User OAuth Token (starts with xoxb-)
+  # 5. Add secret SLACK_BOT_TOKEN to GitHub repository
+
 # AOI (Architecture of Intent) configuration
 aoi:
   jira_project: AOI
