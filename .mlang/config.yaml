@@ -84,26 +84,32 @@ roles:
       - eng.issue.debug
 
 # External MCP Server configuration
-# IMPORTANT: Environment variables (JIRA_ACCESS_TOKEN, WIKI_ACCESS_TOKEN)
-# should be set in GitHub repository secrets for CI/CD
+# IMPORTANT: Set JIRA_API_TOKEN in GitHub repository secrets for CI/CD
 mcp:
-  # Autodesk Atlassian MCP Server (Jira + Confluence)
-  # NOTE: Package must be pre-installed before use
-  # Run: npx --registry https://npm.autodesk.com/.../autodesk-npm-virtual -y @adsk/adsk-atlassian-mcp@latest install
+  # Atlassian MCP Server (Jira + Confluence) - Community maintained
+  # Using sooperset/mcp-atlassian for Atlassian Cloud compatibility
   atlassian:
-    command: npx
+    command: uvx
     args:
-      - --registry
-      - https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual
-      - -y
-      - "@adsk/adsk-atlassian-mcp@latest"
-      - mcp
-      - --wiki
-      - --jira
-    env:
-      # These read from environment variables - set in GitHub secrets
-      JIRA_ACCESS_TOKEN: ${JIRA_ACCESS_TOKEN}
-      WIKI_ACCESS_TOKEN: ${WIKI_ACCESS_TOKEN}
+      - mcp-atlassian
+      - --jira-url
+      - https://autodesk.atlassian.net
+      - --jira-username
+      - shalom.shwaitzer@autodesk.com
+      - --jira-token
+      - ${JIRA_API_TOKEN}
+    env: {}
+
+  # Get API token from: https://id.atlassian.com/manage-profile/security/api-tokens
+  # Note: Same API token works for both Jira and Confluence
+  #
+  # For local development:
+  #   export JIRA_API_TOKEN="your-token-here"
+  #
+  # For GitHub Actions:
+  #   Settings → Secrets → Actions → New repository secret
+  #   Name: JIRA_API_TOKEN
+  #   Value: your-token-here
 
 # AOI (Architecture of Intent) configuration
 aoi:

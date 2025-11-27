@@ -39,26 +39,18 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install uv
+        run: pip install uv
+
       - name: Install MDP CLI
         run: |
           npm install -g @mdp-framework/mlang@1.1.35
           mlang --version
-
-      - name: Configure npm for Autodesk registry
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        run: |
-          # Configure npm to authenticate with Autodesk Artifactory
-          npm config set @adsk:registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
-          npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken "${NPM_AUTH_TOKEN}"
-
-      - name: Pre-install Autodesk Atlassian MCP package
-        env:
-          JIRA_ACCESS_TOKEN: ${{ secrets.JIRA_ACCESS_TOKEN }}
-          WIKI_ACCESS_TOKEN: ${{ secrets.WIKI_ACCESS_TOKEN }}
-        run: |
-          # Pre-install the MCP package so it's cached for later use
-          npx -y @adsk/adsk-atlassian-mcp@latest install
 
       - name: Fetch PR data
         id: fetch-pr
@@ -126,8 +118,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JIRA_ACCESS_TOKEN: ${{ secrets.JIRA_ACCESS_TOKEN }}
-          WIKI_ACCESS_TOKEN: ${{ secrets.WIKI_ACCESS_TOKEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         run: |
           mlang evaluate \
             --file pr-data.json \
