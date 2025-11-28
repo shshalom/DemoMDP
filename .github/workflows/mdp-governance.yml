@@ -3,7 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
-# Framework Version: 1.1.35 (added jira_assignee support)
+# Framework Version: 1.1.38 (sooperset/mcp-atlassian + fixed Jira tool names)
 
 on:
   pull_request:
@@ -49,7 +49,7 @@ jobs:
 
       - name: Install MDP CLI
         run: |
-          npm install -g @mdp-framework/mlang@1.1.35
+          npm install -g @mdp-framework/mlang@1.1.38
           mlang --version
 
       - name: Fetch PR data
