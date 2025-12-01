@@ -49,7 +49,7 @@ jobs:
 
       - name: Configure npm to use Artifactory
         run: |
-          npm config set registry https://artifactory.autodesk.com/artifactory/api/npm/npm-virtual/
+          npm config set registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
 
       - name: Install MDP CLI
         run: |
