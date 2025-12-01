@@ -47,9 +47,9 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: Verify MDP CLI
+      - name: Install MDP CLI
         run: |
-          # Assumes mlang is pre-installed globally on self-hosted runner
+          npm install -g @mdp-framework/mlang@1.1.41
           mlang --version
 
       - name: Fetch PR data
