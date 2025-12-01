@@ -47,10 +47,9 @@ jobs:
       - name: Install uv
         run: pip install uv
 
-      - name: Install MDP CLI
+      - name: Verify MDP CLI
         run: |
-          npm install -g @mdp-framework/mlang@1.1.41
-          mlang --version
+          npx --yes @mdp-framework/mlang@1.1.41 --version
 
       - name: Fetch PR data
         id: fetch-pr
@@ -121,7 +120,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          mlang evaluate \
+          npx --yes @mdp-framework/mlang@1.1.41 evaluate \
             --file pr-data.json \
             --format json \
             > evaluation-result.json || true
