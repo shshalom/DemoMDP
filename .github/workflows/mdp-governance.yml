@@ -47,6 +47,10 @@ jobs:
       - name: Install uv
         run: pip install uv
 
+      - name: Configure npm to use Artifactory
+        run: |
+          npm config set registry https://artifactory.autodesk.com/artifactory/api/npm/npm-virtual/
+
       - name: Install MDP CLI
         run: |
           npm install -g @mdp-framework/mlang@1.1.41
