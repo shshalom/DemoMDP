@@ -47,6 +47,13 @@ jobs:
       - name: Install uv
         run: pip install uv
 
+      - name: Test network connectivity
+        run: |
+          echo "Testing connectivity to npm.autodesk.com..."
+          curl -v https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/ || echo "Cannot reach Artifactory"
+          echo "Testing connectivity to registry.npmjs.org..."
+          curl -v https://registry.npmjs.org/ || echo "Cannot reach npm registry"
+
       - name: Install MDP CLI
         env:
           ADSK_ARTIFACTORY_PASS: ${{ secrets.ADSK_ARTIFACTORY_PASS }}
