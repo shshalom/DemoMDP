@@ -49,8 +49,12 @@ jobs:
 
       - name: Test network connectivity
         run: |
+          echo "Testing basic internet connectivity..."
+          curl -v https://www.google.com || echo "Cannot reach Google - no internet"
+          echo ""
           echo "Testing connectivity to npm.autodesk.com..."
           curl -v https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/ || echo "Cannot reach Artifactory"
+          echo ""
           echo "Testing connectivity to registry.npmjs.org..."
           curl -v https://registry.npmjs.org/ || echo "Cannot reach npm registry"
 
