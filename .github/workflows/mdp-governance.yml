@@ -51,7 +51,9 @@ jobs:
         env:
           ADSK_ARTIFACTORY_PASS: ${{ secrets.ADSK_ARTIFACTORY_PASS }}
         run: |
-          npm install -g @mdp-framework/mlang@1.1.41 --registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/ --//npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken=$ADSK_ARTIFACTORY_PASS
+          npm config set registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
+          npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken $ADSK_ARTIFACTORY_PASS
+          npm install -g @mdp-framework/mlang@1.1.41
           mlang --version
 
       - name: Fetch PR data
