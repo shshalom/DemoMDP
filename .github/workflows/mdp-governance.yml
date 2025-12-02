@@ -53,8 +53,10 @@ jobs:
           ADSK_ARTIFACTORY_PASS: ${{ secrets.ADSK_ARTIFACTORY_PASS }}
         run: |
           npm config set registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
-          AUTH_TOKEN=$(echo -n "$ADSK_ARTIFACTORY_USER:$ADSK_ARTIFACTORY_PASS" | base64)
-          npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_auth "$AUTH_TOKEN"
+          echo "//npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:username=$ADSK_ARTIFACTORY_USER" >> ~/.npmrc
+          echo "//npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_password=$(echo -n "$ADSK_ARTIFACTORY_PASS" | base64)" >> ~/.npmrc
+          echo "//npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:email=$ADSK_ARTIFACTORY_USER@autodesk.com" >> ~/.npmrc
+          echo "//npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:always-auth=true" >> ~/.npmrc
 
       - name: Install MDP CLI
         run: |
