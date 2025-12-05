@@ -3,7 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
-# Framework Version: 1.1.41 (MCP fixes: Slack token check + Jira tool name + process cleanup)
+# Framework Version: 1.1.60 (AOI fix: Evaluator-side file writing for missing components)
 
 on:
   pull_request:
@@ -64,7 +64,7 @@ jobs:
         run: |
           npm config set registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
           npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken $ADSK_ARTIFACTORY_PASS
-          npm install -g @mdp-framework/mlang@1.1.41
+          npm install -g @mdp-framework/mlang@1.1.60
           mlang --version
 
       - name: Fetch PR data
