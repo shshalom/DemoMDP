@@ -86,19 +86,20 @@ roles:
 # External MCP Server configuration
 # IMPORTANT: Set JIRA_API_TOKEN in GitHub repository secrets for CI/CD
 mcp:
-  # Atlassian MCP Server (Jira + Confluence) - Community maintained
-  # Using sooperset/mcp-atlassian for Atlassian Cloud compatibility
+  # Atlassian MCP Server (Jira + Confluence) - Autodesk Internal
+  # Using @adsk/adsk-atlassian-mcp from Autodesk Artifactory
   atlassian:
-    command: uvx
+    command: npx
     args:
-      - mcp-atlassian
-      - --jira-url
-      - https://autodesk.atlassian.net
-      - --jira-username
-      - shalom.shwaitzer@autodesk.com
-      - --jira-token
-      - ${JIRA_API_TOKEN}
-    env: {}
+      - --registry
+      - https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual
+      - -y
+      - "@adsk/adsk-atlassian-mcp@latest"
+      - mcp
+      - --jira
+    env:
+      JIRA_ACCESS_TOKEN: ${JIRA_API_TOKEN}
+      WIKI_ACCESS_TOKEN: dummy
 
   # Get API token from: https://id.atlassian.com/manage-profile/security/api-tokens
   # Note: Same API token works for both Jira and Confluence
