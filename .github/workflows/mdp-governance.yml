@@ -3,7 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
-# Framework Version: 1.1.60 (AOI fix: Evaluator-side file writing for missing components)
+# Framework Version: 1.1.60 (Fix env var interpolation + MCP stability + workspace package copying)
 
 on:
   pull_request:
@@ -25,7 +25,7 @@ permissions:
 jobs:
   evaluate:
     name: Evaluate PR against policies
-    runs-on: self-hosted
+    runs-on: [self-hosted, jenkins-trigger]
 
     steps:
       - name: Checkout code
@@ -36,36 +36,46 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: '24'
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install uv
-        run: pip install uv
-
-      - name: Test network connectivity
+      - name: Test Artifactory access
         run: |
-          echo "Testing basic internet connectivity..."
-          curl -v https://www.google.com || echo "Cannot reach Google - no internet"
+          echo "🔍 Runner: $(hostname)"
+          echo "👤 User: $(whoami)"
           echo ""
-          echo "Testing connectivity to npm.autodesk.com..."
-          curl -v https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/ || echo "Cannot reach Artifactory"
-          echo ""
-          echo "Testing connectivity to registry.npmjs.org..."
-          curl -v https://registry.npmjs.org/ || echo "Cannot reach npm registry"
+          echo "🧪 Testing Artifactory access..."
+          npm view --registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual @adsk/adsk-atlassian-mcp version && echo "✅ Artifactory accessible" || echo "❌ Artifactory not accessible"
 
-      - name: Install MDP CLI
+      - name: Setup MDP CLI
+        run: |
+          echo "Downloading mlang v1.1.60 from GitHub Releases..."
+          mkdir -p ~/.mlang
+          curl -sL -o /tmp/mlang.tar.gz \
+            "https://github.com/shshalom/mdp-framework/releases/download/v1.1.60/mlang-1.1.60.tar.gz"
+
+          # Extract with suppressed warnings for macOS extended attributes
+          tar -xzf /tmp/mlang.tar.gz -C ~/.mlang --strip-components=1 2>/dev/null || tar -xzf /tmp/mlang.tar.gz -C ~/.mlang --strip-components=1
+          rm /tmp/mlang.tar.gz
+          chmod +x ~/.mlang/bin/mlang.js
+
+          echo "$HOME/.mlang/bin" >> $GITHUB_PATH
+
+          ~/.mlang/bin/mlang.js --version
+          echo "✅ mlang v$(~/.mlang/bin/mlang.js --version) installed successfully"
+
+      - name: Configure Artifactory access
         env:
-          ADSK_ARTIFACTORY_PASS: ${{ secrets.ADSK_ARTIFACTORY_PASS }}
+          ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
         run: |
-          npm config set registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/
-          npm config set //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_authToken $ADSK_ARTIFACTORY_PASS
-          npm install -g @mdp-framework/mlang@1.1.60
-          mlang --version
+          echo "🔐 Configuring Artifactory authentication for npx..."
+          # Create .npmrc with Artifactory credentials
+          # This allows npx to download @adsk/adsk-atlassian-mcp during evaluation
+          cat > ~/.npmrc << EOF
+          //npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual/:_auth=${ARTIFACTORY_TOKEN}
+          EOF
+
+          # Verify access
+          npm view --registry https://npm.autodesk.com/artifactory/api/npm/autodesk-npm-virtual @adsk/adsk-atlassian-mcp version && echo "✅ Artifactory authenticated successfully" || echo "❌ Artifactory auth failed"
 
       - name: Fetch PR data
         id: fetch-pr
@@ -136,7 +146,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          mlang evaluate \
+          mlang.js evaluate \
             --file pr-data.json \
             --format json \
             > evaluation-result.json || true
