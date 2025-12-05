@@ -14,9 +14,12 @@
     "enabled": true,
     "framework": "ios/Modules/AlloyUI",
     "include_tests": true,
+    "jira_assignee": "john.doe",
+    "jira_project": "MPX",
     "owners": [
       "@alloy-team"
     ],
+    "slack_route": "alloy-alerts",
     "threshold": 0.85
   },
   "constraints": {
@@ -35,9 +38,11 @@
       "List {",
       "NavigationView",
       "LazyColumn",
+      "<div>",
       "<button",
       "<input",
-      "<div"
+      "import SwiftUI",
+      "import androidx.compose"
     ],
     "framework_locations": {
       "android": "pgf/alloyDomain/src/",
@@ -47,7 +52,7 @@
     "severity": "error",
     "target_compliance": 0.95,
     "use_alloy_components": true,
-    "violation_check_prompt": "Uses vanilla UI components (Text, Button, TextField, etc.) instead of Alloy framework equivalents? Ignore layout containers (VStack, HStack, ZStack, Column, Row, div). Answer yes or no only."
+    "violation_check_prompt": "Does code use vanilla UI components (Text, Button, TextField, etc.) instead of AlloyUI/alloyDomain/alloy-components? Ignore layout containers (VStack, HStack, ZStack, Column, Row). Answer yes or no only."
   },
   "description": "Enforce consistent use of Alloy Design System components across all Autodesk products to ensure design consistency, maintainability, and accessibility",
   "id": "ui.alloy.governance",
@@ -67,6 +72,7 @@
     }
   ],
   "reference_code": {
+    "component_index": "ios/Modules/AlloyUI/AlloyUIIndex.md",
     "exclude_patterns": [
       "**/*Tests.swift",
       "**/*Test.swift",
@@ -91,5 +97,5 @@
     "autodesk"
   ],
   "title": "Alloy Design System Governance Rules",
-  "version": "2025.11.19"
+  "version": "2025.12.05"
 }

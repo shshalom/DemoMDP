@@ -45,6 +45,7 @@ reference_code:
     - "**/*Test.swift"
     - "**/.*"
   max_files: 20
+  component_index: "ios/Modules/AlloyUI/AlloyUIIndex.md"
 
 on_violation:
   - action: fail

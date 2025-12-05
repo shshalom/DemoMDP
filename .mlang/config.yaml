@@ -139,5 +139,5 @@ mcp:
 
 # AOI (Architecture of Intent) configuration
 aoi:
-  jira_project: AOI
+  jira_project: MPX
   slack_route: aoi-alerts
