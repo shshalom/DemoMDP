@@ -10,6 +10,3 @@ Framework: AlloyUI
 | Text | TextView | TextView.swift |
 | Button | Button | Button.swift |
 | TextField | TextField | TextField.swift |
-
----
-Created by Shalom Shwaitzer
