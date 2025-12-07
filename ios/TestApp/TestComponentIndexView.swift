@@ -29,6 +29,3 @@ struct TestComponentIndexView: View {
         .padding()
     }
 }
-# Retrigger workflow
-
-
