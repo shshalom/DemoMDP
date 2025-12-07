@@ -37,12 +37,10 @@
       "TextField(",
       "List {",
       "NavigationView",
-      "LazyColumn",
       "<div>",
       "<button",
       "<input",
-      "import SwiftUI",
-      "import androidx.compose"
+      "LazyColumn"
     ],
     "framework_locations": {
       "android": "pgf/alloyDomain/src/",
@@ -52,7 +50,7 @@
     "severity": "error",
     "target_compliance": 0.95,
     "use_alloy_components": true,
-    "violation_check_prompt": "Does code use vanilla UI components (Text, Button, TextField, etc.) instead of AlloyUI/alloyDomain/alloy-components? Ignore layout containers (VStack, HStack, ZStack, Column, Row). Answer yes or no only."
+    "violation_check_prompt": "Does code use vanilla UI components (Text, Button, TextField, etc.) instead of Alloy framework equivalents? Ignore layout containers (VStack, HStack, ZStack, Column, Row). Answer yes or no only."
   },
   "description": "Enforce consistent use of Alloy Design System components across all Autodesk products to ensure design consistency, maintainability, and accessibility",
   "id": "ui.alloy.governance",
@@ -97,5 +95,5 @@
     "autodesk"
   ],
   "title": "Alloy Design System Governance Rules",
-  "version": "2025.12.05"
+  "version": "2025.12.07"
 }
