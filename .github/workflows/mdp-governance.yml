@@ -49,6 +49,7 @@ jobs:
       - name: Setup MDP CLI
         run: |
           echo "Downloading mlang v1.1.72 from GitHub Releases..."
+          rm -rf ~/.mlang  # Clear any cached version from previous runs
           mkdir -p ~/.mlang
           curl -sL -o /tmp/mlang.tar.gz \
             "https://github.com/shshalom/mdp-framework/releases/download/v1.1.72/mlang-1.1.72.tar.gz"
