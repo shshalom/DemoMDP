@@ -3,7 +3,7 @@ name: MDP Governance
 # Policies: ios.swift.no-force-unwrap, ui.alloy.governance
 # AI Required: Yes (AI-powered policy evaluation)
 # Estimated Cost: ~$0.05 per PR
-# Framework Version: 1.1.80 (Fix: Fix: Add 3-minute timeout to prevent MCP connection hangs)
+# Framework Version: 1.1.82 (Fix: MCP idle timeout with deferred connection)
 
 on:
   pull_request:
@@ -48,11 +48,11 @@ jobs:
 
       - name: Setup MDP CLI
         run: |
-          echo "Downloading mlang v1.1.80 from GitHub Releases..."
+          echo "Downloading mlang v1.1.82 from GitHub Releases..."
           rm -rf ~/.mlang  # Clear any cached version from previous runs
           mkdir -p ~/.mlang
           curl -sL -o /tmp/mlang.tar.gz \
-            "https://github.com/shshalom/mdp-framework/releases/download/v1.1.80/mlang-1.1.80.tar.gz"
+            "https://github.com/shshalom/mdp-framework/releases/download/v1.1.82/mlang-1.1.82.tar.gz"
 
           # Extract with suppressed warnings for macOS extended attributes
           tar -xzf /tmp/mlang.tar.gz -C ~/.mlang --strip-components=1 2>/dev/null || tar -xzf /tmp/mlang.tar.gz -C ~/.mlang --strip-components=1
