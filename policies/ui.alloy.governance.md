@@ -27,7 +27,7 @@ aoi:
   framework: "ios/Modules/AlloyUI"
   jira_project: MPX
   jira_assignee: john.doe  # Jira username to auto-assign issues
-  slack_route: alloy-alerts
+  slack_route: "#mdp-mpx-channel"
   owners:
     - "@alloy-team"
   include_tests: true
