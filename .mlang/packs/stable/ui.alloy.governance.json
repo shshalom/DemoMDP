@@ -14,7 +14,7 @@
     "enabled": true,
     "framework": "ios/Modules/AlloyUI",
     "include_tests": true,
-    "jira_assignee": "john.doe",
+    "jira_assignee": "shalom.shwaitzer",
     "jira_project": "MPX",
     "owners": [
       "@alloy-team"
