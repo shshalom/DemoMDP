@@ -149,7 +149,7 @@ jobs:
         run: |
           mlang.js evaluate \
             --file pr-data.json \
-            --policies .mlang/policies \
+            --policies .mlang/packs/stable \
             --format json \
             > evaluation-result.json || true
 
